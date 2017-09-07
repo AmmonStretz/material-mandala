@@ -12,6 +12,11 @@ inspired by the user images of github.
 
 They are generated in an canvas directive called MandalaDirective.
 
+![Alt text](/docs/img/mandala01.png?raw=true)
+![Alt text](/docs/img/mandala02.png?raw=true)
+![Alt text](/docs/img/mandala03.png?raw=true)
+![Alt text](/docs/img/mandala04.png?raw=true)
+
 ## TODOs
 
 1. Make the code cleaner
