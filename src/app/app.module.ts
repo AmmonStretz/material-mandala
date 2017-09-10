@@ -1,3 +1,4 @@
+import { WorldGeneratorService } from './world-generator.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +18,7 @@ import { MandalaDirective } from './mandala.directive';
     FormsModule,
     HttpModule
   ],
-  providers: [RandomColorService],
+  providers: [RandomColorService, WorldGeneratorService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

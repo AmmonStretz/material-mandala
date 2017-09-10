@@ -1,31 +1,45 @@
+import { Point } from './point';
 import { Geometry } from './geometry';
 import { World } from './world';
 
 export class Triangle implements Geometry {
 
-  private acx: number;
-  private acy: number;
-  private abx: number;
-  private aby: number;
 
-  constructor(private ax: number, private ay: number, private bx: number, private by: number, private cx: number, private cy: number) {
-    this.abx = bx - ax;
-    this.aby = by - ay;
-    this.acx = cx - ax;
-    this.acy = cy - ay;
+  public static random(points: Point[]): Triangle {
+    if (points.length < 3) {
+      return null;
+    }
+    const a = points.splice(Math.floor(Math.random() * points.length), 1)[0];
+    const b = points.splice(Math.floor(Math.random() * points.length), 1)[0];
+    let i = points.length;
+    while (i--) {
+      if ((points[i].x - a.x) / (b.x - a.x) === (points[i].y - a.y) / (b.y - a.y)) {
+        points.splice(i, 1);
+      }
+    }
+    if (points.length === 0) {
+      return null;
+    }
+    const c = points.splice(Math.floor(Math.random() * points.length), 1)[0];
+    return new Triangle(a, b, c);
   }
 
-  hit(x: number, y: number): boolean {
-    if(this.ax==this.bx&&this.ax==this.cx){
-      return false;
-    }
-    if(this.ay==this.by&&this.ay==this.cy){
-      return false;
-    }
-    let l = (this.aby * (x - this.ax) - this.abx * (y - this.ay)) / (this.aby * this.acx - this.abx * this.acy);
-    if (l < 0 || l > 1) { return false; }
-    // return true;
-    let k = (x - this.ax - this.acx * l) / this.abx;
-    return k >= 0 && k <= 1 && Math.floor(k + l) != 1;
+  constructor(private a: Point, private b: Point, private c: Point) {
+  }
+
+  public sign(p: Point, b: Point, c: Point): number {
+    return (p.x - c.x) * (b.y - c.y) - (b.x - c.x) * (p.y - c.y);
+  }
+
+  hit(p: Point) {
+    let b1: boolean;
+    let b2: boolean;
+    let b3: boolean;
+
+    b1 = this.sign(p, this.a, this.b) < 0.0;
+    b2 = this.sign(p, this.b, this.c) < 0.0;
+    b3 = this.sign(p, this.c, this.a) < 0.0;
+
+    return ((b1 === b2) && (b2 === b3));
   }
 }

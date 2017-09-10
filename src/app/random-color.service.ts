@@ -37,7 +37,7 @@ export class RandomColorService {
       .map((res) => {
         return res.json();
       }).map((res) => {
-        const c:ColorStack[] = [res.length];
+        const c:ColorStack[] = [];
         res.forEach(el => {
           const stackPrim: Color[] = [];
           el.prim.forEach(c => {

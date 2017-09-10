@@ -1,3 +1,5 @@
+import { Point } from './classes/point';
+import { WorldGeneratorService } from './world-generator.service';
 import { RandomColorService } from './random-color.service';
 import { Directive, ElementRef, AfterViewInit, Input, HostListener } from '@angular/core';
 import { World } from './classes/world';
@@ -12,27 +14,29 @@ export class MandalaDirective implements AfterViewInit {
   @Input() private height = this.el.nativeElement.offsetHeight;
   @Input() private world: World;
 
-  constructor(private el: ElementRef, private ranColor: RandomColorService) { }
+  constructor(
+    private el: ElementRef,
+    private ranColor: RandomColorService,
+    private worldGenerator: WorldGeneratorService
+  ) { }
 
   @HostListener('click')
   click() {
     console.log(this.world.geos, this.world.colors);
   }
 
-  // private getRandomNumber(n: number[]) {
-  //   let e = n.slice(0);
-  //   e.splice(0, 1);
-  //   console.log(e.length);
-  // }
-
-  public loadWorld(world: World) {
+  public drawWorld(world: World) {
     this.world = world;
-    for (let x = 0; x < this.width / 2 + 1; x++) {
-      for (let y = 0; y < this.height / 2 + 1; y++) {
-        this.ctx.fillStyle = world.calcPixel(x, y);
+    for (let x = 0; x <= this.width / 2; x++) {
+      for (let y = 0; y <= x; y++) {
+        this.ctx.fillStyle = world.calcPixel(new Point(x, y));
         this.ctx.fillRect(x, y, 1, 1);
+        this.ctx.fillRect(y, x, 1, 1);
         this.ctx.fillRect(this.width - x, y, 1, 1);
+        this.ctx.fillRect(y, this.width - x, 1, 1);
         this.ctx.fillRect(x, this.height - y, 1, 1);
+        this.ctx.fillRect(this.height - y, x, 1, 1);
+        this.ctx.fillRect(this.height - y, this.width - x, 1, 1);
         this.ctx.fillRect(this.width - x, this.height - y, 1, 1);
       }
     }
@@ -40,11 +44,11 @@ export class MandalaDirective implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.world) {
-      this.loadWorld(this.world);
+      this.drawWorld(this.world);
     } else {
-      this.ranColor.getColorGroup().subscribe((res)=>{
-        this.loadWorld(
-          World.loadRandomWorld(
+      this.ranColor.getColorGroup().subscribe((res) => {
+        this.drawWorld(
+          this.worldGenerator.loadRandomWorld(
             this.width / 2 + 1,
             this.height / 2 + 1,
             res));

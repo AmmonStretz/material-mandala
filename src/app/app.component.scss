@@ -1,16 +1,9 @@
 :host {
-    // canvas {
-    //     position: fixed;
-    //     top: calc(50vh - 200px);
-    //     left: calc(50% - 200px);
-    //     border-radius: 200px;
-    //     display: none;
-    // }
     canvas[mandala] {
         float: left;
-        border-radius: 100px;
-        height: 200px;
-        width: 200px;
+        // border-radius: 200px;
+        height: 400px;
+        width: 400px;
         display: block;
     }
 }
