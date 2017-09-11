@@ -9,22 +9,27 @@ export class Triangle implements Geometry {
     if (points.length < 3) {
       return null;
     }
-    const a = points.splice(Math.floor(Math.random() * points.length), 1)[0];
-    const b = points.splice(Math.floor(Math.random() * points.length), 1)[0];
+    const A = points.splice(Math.floor(Math.random() * points.length), 1)[0];
+    const B = points.splice(Math.floor(Math.random() * points.length), 1)[0];
     let i = points.length;
     while (i--) {
-      if ((points[i].x - a.x) / (b.x - a.x) === (points[i].y - a.y) / (b.y - a.y)) {
+      const a = B.distance(points[i]);
+      const b = A.distance(points[i]);
+      const c = A.distance(B);
+      const area = Math.sqrt((-a + b + c) * (a - b + c) * (a + b - c) * (a + b + c)) / (4);
+      if (area <= 1) {
+        console.log(A, B, points[i]);
         points.splice(i, 1);
       }
     }
     if (points.length === 0) {
       return null;
     }
-    const c = points.splice(Math.floor(Math.random() * points.length), 1)[0];
-    return new Triangle(a, b, c);
+    const C = points.splice(Math.floor(Math.random() * points.length), 1)[0];
+    return new Triangle(A, B, C);
   }
 
-  constructor(private a: Point, private b: Point, private c: Point) {
+  constructor(public a: Point, public b: Point, public c: Point) {
   }
 
   public sign(p: Point, b: Point, c: Point): number {

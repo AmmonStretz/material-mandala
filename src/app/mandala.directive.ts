@@ -1,3 +1,4 @@
+import { Triangle } from './classes/triangle';
 import { Point } from './classes/point';
 import { WorldGeneratorService } from './world-generator.service';
 import { RandomColorService } from './random-color.service';
@@ -22,7 +23,11 @@ export class MandalaDirective implements AfterViewInit {
 
   @HostListener('click')
   click() {
-    console.log(this.world.geos, this.world.colors);
+    this.world.geos.forEach(geo => {
+      if(geo instanceof Triangle){
+        console.log(geo.a, geo.b, geo.c);
+      }
+    });
   }
 
   public drawWorld(world: World) {
@@ -55,5 +60,4 @@ export class MandalaDirective implements AfterViewInit {
       });
     }
   }
-
 }

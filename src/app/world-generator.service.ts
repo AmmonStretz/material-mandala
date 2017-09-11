@@ -27,11 +27,11 @@ export class WorldGeneratorService {
 
   public loadRandomWorld(width: number, height: number, colors: Color[]): World {
     let geos: Geometry[] = [];
-
+    // geos.push(new Triangle(new Point(width/2, height/2),new Point(width, 0),new Point(width, height)));
     geos.push(Triangle.random(this.calcGrid(width, height)));
     geos.push(Triangle.random(this.calcGrid(width, height)));
-    geos.push(Triangle.random(this.calcGrid(width, height)));
-    geos.push(Sphere.random(this.calcGrid(width, height)));
+    // geos.push(Triangle.random(this.calcGrid(width, height)));
+    // geos.push(Sphere.random(this.calcGrid(width, height)));
     geos.push(Sphere.random(this.calcGrid(width, height)));
     geos.push(Sphere.random(this.calcGrid(width, height)));
     return new World(width, height, geos, colors);
